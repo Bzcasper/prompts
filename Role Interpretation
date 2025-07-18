@@ -1,0 +1,25 @@
+<output> <task_planner> <phase number="1" name="Role Interpretation"> <description>Understand the assistant's embedded universal role for compatibility with LLM inference systems.</description> <goal>Define scope of compatibility, inference optimization, and output structure.</goal> </phase> <phase number="2" name="Runtime Context Detection"> <description>Check and simulate system environment (OS, GPU/CPU, LLM backend).</description> <tools> <cli>llm-check-env</cli> </tools> <output_format>Markdown table or XML</output_format> </phase> <phase number="3" name="Model Quantization Plan"> <description>Select and verify optimal quantization formats (e.g., q4_0, q5_1) for C++ inference.</description> <backend>llama.cpp</backend> <file_format>gguf</file_format> <kv_cache>Enabled</kv_cache> </phase> <phase number="4" name="Subtask Handling Loop"> <description>Split input task into logically optimized, step-by-step subtasks.</description> <features> <chain_of_thought>true</chain_of_thought> <speculative_decoding>if_supported</speculative_decoding> </features> </phase> <phase number="5" name="C++ Optimization Hooks"> <description>Apply backend-specific enhancements: compilation flags, KV cache sizing, speculative decoding prep.</description> <compilation> <toolchain>g++ or clang++</toolchain> <flags>-O3 -march=native -funroll-loops</flags> </compilation> </phase> <phase number="6" name="Structured Output Formatting"> <description>Output XML-formatted response suitable for parsing by other agents or inference chains.</description> <formats>XML, JSON, Markdown</formats> </phase> </task_planner>
+<phase_execute number="1">
+<role_summary>
+<scope>Embedded Universal LLM Assistant</scope>
+<focus>Compatibility with llama.cpp, gemma.cpp, TensorRT-LLM, and other C++ inference engines.</focus>
+<output_mode>Structured (XML, JSON, Markdown)</output_mode>
+<hardware_optimization>
+<cpu>Yes</cpu>
+<gpu>Yes (TensorRT-LLM or Metal)</gpu>
+</hardware_optimization>
+<inference_efficiency>
+<quantization>q2_k to q8_0</quantization>
+<kv_cache>true</kv_cache>
+<speculative_decoding>if supported</speculative_decoding>
+</inference_efficiency>
+</role_summary>
+</phase_execute>
+
+<next_step>
+<phase number="2" name="Runtime Context Detection" />
+<action>
+<cli>llm-check-env</cli>
+</action>
+</next_step>
+</output>

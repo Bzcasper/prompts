@@ -1,0 +1,234 @@
+Enhanced Prompt for Casper's Treasure Chest Jewelry Store
+Role: Act as a full-stack developer specializing in building production-ready, minimalist web applications using FastAPI (Python), Supabase, and Cloudflare, with expertise in integrating open-source AI models (e.g., CLIP for vision, LLaMA for text generation) and local vector stores (e.g., Faiss). Your goal is to create a professional, functional, and customizable pre-owned jewelry store called "Casper's Treasure Chest" with a focus on costume and vintage jewelry ($20–$500), some semi-fine, and rare fine pieces.
+Objective: Build a complete, production-ready, minimalist jewelry store website with placeholder code and a wireframe structure for easy customization. Ensure all core functionalities (browsing, cart, checkout, admin product management, subscriber-only AI product upload) are fully operational. The AI upload feature, which uses a fine-tuned vision model to analyze images and generate listings, must be restricted to subscribers and not advertised publicly. Prioritize a professional, clean design and robust functionality over aesthetic polish, with all buttons and interactions working reliably.
+Core Requirements:
+
+Project Setup:
+
+Backend: Use FastAPI (Python) for API routes handling product management, user authentication, cart, checkout, and AI-driven uploads.
+Frontend: Use HTML/CSS/JavaScript with Tailwind CSS for a minimalist, professional design. If React is permitted, use it via CDN (e.g., cdn.jsdelivr.net) for dynamic components, avoiding Next.js.
+Database & Storage: Use Supabase for PostgreSQL (products, users, orders) and Storage (images). Implement Row Level Security (RLS) for subscriber-only access to AI upload features.
+AI Integration: Use open-source CLIP (via Hugging Face) for image analysis and LLaMA/Mixtral (via Hugging Face Transformers) for listing generation, hosted locally or on a compatible service (e.g., RunPod if allowed).
+Vector Store: Use Faiss for local vector search to group similar images and suggest competitive pricing based on a jewelry dataset ($20–$500 range, primarily costume/vintage, some semi-fine, few fine pieces).
+Deployment: Prepare for deployment on a Python-compatible platform (e.g., Render or Heroku) with Cloudflare for CDN, edge caching, and DNS optimization.
+Environment Variables: Store sensitive data (e.g., Supabase URL/key) in .env.
+
+
+Jewelry Store Features:
+
+Public Storefront:
+Home Page: Showcase featured jewelry (costume, vintage, semi-fine, fine) with filters (price, type, style, era).
+Product Page: Display item details (title, description, price, images, specifics) with an "Add to Cart" button.
+Cart & Checkout: Functional cart with quantity updates and a mock checkout (integrate Stripe or a placeholder payment form).
+Design: Minimalist, professional, mobile-first UI using Tailwind CSS, focusing on usability and fast load times.
+
+
+User Accounts:
+Simple email/password authentication via Supabase Auth.
+Two roles: Regular users (browse, purchase) and subscribers (access AI upload feature).
+
+
+Admin Dashboard (subscriber-only):
+Manage products (add manually, edit, delete).
+Review AI-generated listings before publishing.
+View orders and user data (restricted by RLS).
+
+
+AI Product Upload (subscriber-only, not advertised):
+Allow uploads of single images, multiple images, or ZIP files via drag-and-drop or file input.
+Analyze images using CLIP to extract attributes: type (e.g., necklace, ring), material (e.g., copper alloy, sterling silver), gemstone (e.g., CZ, sapphire), style (e.g., boho, vintage), condition (e.g., pre-owned excellent), era (e.g., 1990s, antique), hallmark (e.g., "925").
+Group similar images into single listings using Faiss vector search (based on CLIP embeddings).
+Generate SEO-optimized listings (title, subtitle, description, keywords, price, specifics) using LLaMA/Mixtral.
+Suggest prices ($20–$500) by comparing embeddings to a Faiss index of jewelry market data (e.g., Etsy, eBay).
+Store listings in Supabase with confidence scores and allow admin review.
+
+
+
+
+Wireframe Structure:
+
+Home Page (/index.html):
+Header: Logo, navigation (Home, Shop, Cart, Login/Signup).
+Hero: Minimal banner with "Discover Timeless Treasures" and a call-to-action (e.g., "Shop Now").
+Featured Products: Grid of 6–8 items with placeholders (image, title, price).
+Filters: Dropdowns for price, type, style, era.
+Footer: Contact info, links, copyright.
+
+
+Product Page (/product/[id].html):
+Image gallery (placeholder images).
+Details: Title, subtitle, price, description, specifics (type, material, etc.), "Add to Cart" button.
+
+
+Cart Page (/cart.html):
+List items, quantities, subtotal, "Proceed to Checkout" button.
+
+
+Checkout Page (/checkout.html):
+Placeholder form for shipping/payment (mock Stripe integration).
+
+
+Admin Dashboard (/admin.html, subscriber-only):
+Upload form (drag-and-drop, file input).
+Listing review table (edit, approve, delete).
+Manual product add form.
+
+
+Login/Signup (/auth.html):
+Email/password fields, subscriber toggle.
+
+
+
+
+AI Upload Workflow (Subscriber-Only):
+
+Trigger: Subscriber uploads images/ZIP via admin dashboard.
+Process:
+Save images to Supabase Storage.
+Extract ZIP if applicable.
+Analyze images with CLIP to extract attributes and embeddings.
+Group similar images using Faiss.
+Generate listings with LLaMA/Mixtral (title, subtitle, description, keywords, price, specifics).
+Store in Supabase with confidence scores (<0.8 prompts admin review).
+Notify admin for review/approval.
+
+
+Output Formats:
+JSON: For API and programmatic use.
+Markdown: For Obsidian review.
+CSV: For Etsy bulk uploads.
+
+
+Access Control: Restrict to subscribers via Supabase RLS.
+
+
+Placeholder Code Guidelines:
+
+Provide complete, functional code with clear placeholders (e.g., // TODO: Customize styling) for easy customization.
+Ensure all buttons (e.g., "Add to Cart", "Upload", "Approve") have loading/error states and work reliably.
+Include comments for customization points (e.g., styling, additional filters, payment integration).
+Use Tailwind CSS classes for a professional, minimalist look (e.g., neutral colors, clean typography).
+
+
+Output Artifacts:
+
+Project Structure:caspers-treasure-chest/
+├── app/
+│   ├── __init__.py
+│   ├── main.py              # FastAPI app
+│   ├── routes/
+│   │   ├── products.py      # Product management
+│   │   ├── auth.py          # User authentication
+│   │   ├── cart.py          # Cart and checkout
+│   │   ├── upload.py        # AI upload (subscriber-only)
+│   ├── utils/
+│   │   ├── vision.py        # CLIP image analysis
+│   │   ├── llm.py           # LLM text generation
+│   │   ├── vector_store.py  # Faiss vector search
+│   │   ├── supabase_client.py # Supabase integration
+├── static/
+│   ├── css/
+│   │   ├── styles.css       # Tailwind CSS
+│   ├── js/
+│   │   ├── main.js          # General frontend logic
+│   │   ├── upload.js        # AI upload logic
+│   ├── index.html           # Home page
+│   ├── product.html         # Product page template
+│   ├── cart.html            # Cart page
+│   ├── checkout.html        # Checkout page
+│   ├── admin.html           # Admin dashboard
+│   ├── auth.html            # Login/Signup
+├── data/
+│   ├── market_data.json     # Jewelry dataset ($20–$500)
+│   ├── embeddings.faiss     # Faiss index
+├── templates/                # HTML templates (if using Jinja2)
+├── requirements.txt          # Dependencies
+├── .env                     # Environment variables
+├── README.md                # Setup instructions
+
+
+Sample Listing Output:
+Markdown, JSON, CSV for a vintage necklace (costume, $20–$500 range).
+
+
+README: Instructions for setup, deployment, and customization.
+
+
+Constraints:
+
+Focus on functionality: All buttons, forms, and API routes must work.
+Restrict AI upload feature to subscribers, with no public advertising.
+Target costume (60%), vintage (30%), semi-fine (8%), fine (2%) jewelry.
+Price range: $20–$500, validated via Faiss against market data.
+Keep design minimalist (neutral colors, clean layout) but professional.
+Handle edge cases: invalid files, low-confidence AI predictions, duplicate images.
+Avoid blocked technologies (Next.js, Modal Labs, Weaviate, Vercel Functions).
+
+
+Sample Listing Output (Markdown):
+---
+title: "Vintage Eternal Elegance Copper Alloy Floral Brooch"
+subtitle: "Charming costume piece with retro flair"
+price: 45.00
+keywords: ["vintage brooch", "copper alloy", "floral jewelry", "costume jewelry", "eternal elegance"]
+type: Brooch
+material: Copper Alloy
+gemstone: None
+condition: Pre-owned, excellent
+style: Vintage
+era: 1970s
+hallmark: None
+vector_match: "Local dataset match | $42.00 | 0.89 similarity"
+image_filenames: ["brooch_001.jpg", "brooch_002.jpg"]
+metadata:
+  confidence_scores:
+    type: 0.97
+    material: 0.94
+    gemstone: 0.99
+    condition: 0.87
+    style: 0.90
+    era: 0.82
+    hallmark: 0.95
+---
+This vintage copper alloy brooch from Eternal Elegance features a delicate floral design, perfect for adding retro charm to any outfit. In excellent pre-owned condition, this 1970s costume piece is a standout addition to your jewelry collection.
+
+
+
+Deliverables:
+
+A complete FastAPI project wrapped in an <xaiArtifact> tag, including:
+Frontend: HTML/CSS/JS files with Tailwind CSS, placeholder content, and functional buttons.
+Backend: FastAPI routes for products, cart, checkout, auth, and subscriber-only AI upload.
+AI Pipeline: CLIP for image analysis, Faiss for grouping/pricing, LLaMA for listing generation.
+Database: Supabase schema and RLS configuration.
+README: Setup, deployment, and customization instructions.
+
+
+Sample listing outputs in Markdown, JSON, CSV.
+Wireframe documentation for easy customization.
+
+Behavioral Guidelines:
+
+Prioritize clarity and structure in code and outputs.
+Avoid redundancy in listings and ensure unique titles/descriptions.
+Validate AI outputs (confidence <0.8 prompts admin review).
+Plan for reusable automation (e.g., batch uploads).
+Suggest enhancements: fine-tune CLIP, add voice input, expand market dataset.
+Ensure buttons have loading/error states for reliability.
+
+Technical Notes:
+
+Use FastAPI for lightweight, async API routes.
+Host CLIP/LLaMA locally or on RunPod (if allowed; clarify environment constraints).
+Initialize Faiss with a sample jewelry dataset (e.g., 1000 items, $20–$500).
+Configure Cloudflare for static asset caching (e.g., images, CSS).
+Use Supabase Auth for subscriber role management.
+
+References:
+
+FastAPI: https://fastapi.tiangolo.com
+Supabase: https://supabase.com/docs
+Hugging Face Transformers: https://huggingface.co/docs/transformers
+Faiss: https://github.com/facebookresearch/faiss
+Tailwind CSS: https://tailwindcss.com/docs
+Cloudflare: https://developers.cloudflare.com
